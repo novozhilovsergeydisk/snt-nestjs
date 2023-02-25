@@ -1,0 +1,47 @@
+body {
+	background-color: #1f2424;
+	color: white;
+}
+
+p {
+	line-height: 1.5 !important;
+}
+
+.section-2, .section-9 {
+	min-height: 75vh;
+}
+
+.u-layout-cell {
+	/*border: 1px solid red;*/
+}
+
+h2, .h2 {
+	font-family: 'Open Sans', sans-serif !important;
+}
+
+.h2-link {
+	font-family: 'Open Sans', sans-serif !important;
+}
+
+.span-logo {
+	font-size: 1.5rem;
+	font-weight: bold;
+}
+
+.menu {
+	display: flex;
+	/*border: 1px solid red;*/
+}
+
+.menu-span {
+	display: inline-block;
+	font-size: 1.2rem;
+	padding-top: 0.3rem;
+	/*font-weight: bold;*/
+}
+
+@media (max-width: 992px) {
+	.menu-span {
+		display: none;
+	}
+}
