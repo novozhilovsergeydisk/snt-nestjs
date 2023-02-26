@@ -1,6 +1,6 @@
 ## Description
 
-[Nest](https://github.com/novozhilovsergeydisk/snt-nestjs) project repository.
+[SNT](https://github.com/novozhilovsergeydisk/snt-nestjs) project repository.
 
 ## Installation
 
@@ -23,7 +23,7 @@ $ npm run start:prod
 
 ## Development
 
-- Author - [Sergey Novozhilov]
+Author [Sergey Novozhilov]
 
 ## License
 
