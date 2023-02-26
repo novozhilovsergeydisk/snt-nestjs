@@ -3,10 +3,10 @@
 /node_modules
 
 # custom
-/.production.env
-/.development.env
-/.env
-/test.html
+.production.env
+.development.env
+.env
+test.html
 
 # Logs
 logs
