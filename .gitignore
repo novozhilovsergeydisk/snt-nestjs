@@ -4,6 +4,7 @@
 .production.env
 .development.env
 .env
+test.html
 
 # Logs
 logs
