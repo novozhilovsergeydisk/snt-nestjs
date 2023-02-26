@@ -1,10 +1,12 @@
 # compiled output
 /dist
 /node_modules
-.production.env
-.development.env
-.env
-test.html
+
+# custom
+/.production.env
+/.development.env
+/.env
+/test.html
 
 # Logs
 logs
