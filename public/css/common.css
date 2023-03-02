@@ -1561,13 +1561,21 @@ body.swal2-toast-shown .swal2-container.swal2-bottom-end, body.swal2-toast-shown
 }
 
 :root {
-	--main-color: #4bb04d;
+	--main-color: #789256;
 	--main-color-rgba-50: rgba(75, 176, 77, .5);
-	--main-color-rgba-80: rgba(75, 176, 77, .8);
-	--main-color-near: #28b02b;
+	--main-color-rgba-80: #789256;
+	--main-color-near: #a5c8a6;
 	--main-color-dark: #239b26;
-	--main-color-light: #11ea16;
+	--main-color-light: #68cf6a;
 	--main-color-light-rgba-25: rgba(17, 234, 22, .25);
+
+	/*--main-color: #4bb04d;*/
+	/*--main-color-rgba-50: rgba(75, 176, 77, .5);*/
+	/*--main-color-rgba-80: rgba(75, 176, 77, .8);*/
+	/*--main-color-near: #28b02b;*/
+	/*--main-color-dark: #239b26;*/
+	/*--main-color-light: #11ea16;*/
+	/*--main-color-light-rgba-25: rgba(17, 234, 22, .25);*/
 	--bg-color-light: #f7f7f7;
 	--bg-menu-top: #fff;
 	--bg-menu-sidebar: #404040;
