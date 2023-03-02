@@ -11,6 +11,12 @@ export class AppController {
     return { title: 'Тест', content: '' };
   }
 
+  @Get('admin/default')
+  @Render('admin/default.ejs')
+  default() {
+    return { title: 'Тест', content: '' };
+  }
+
   @Get('/')
   @Render('site/main.ejs')
   main() {
