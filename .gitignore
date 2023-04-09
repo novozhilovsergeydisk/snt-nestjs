@@ -3,6 +3,7 @@
 /node_modules
 
 # custom
+/db
 .production.env
 .development.env
 .env
