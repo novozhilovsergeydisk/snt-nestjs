@@ -17,16 +17,18 @@ import * as crypto from 'crypto';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  // admin zone
+
   @Get('admin')
   @Render('admin/index.ejs')
   index() {
-    return { title: 'Тест', content: '' };
+    return { _title: 'Тест', _content: '' };
   }
 
-  @Get('admin/default')
-  @Render('admin/default.ejs')
-  default() {
-    return { title: 'Тест', content: '' };
+  @Get('admin/accounting-documents')
+  @Render('admin/accounting-documents.ejs')
+  accounting_documents() {
+    return { _title: 'foo', _content: 'bar' };
   }
 
   @Get('admin/xlsx')
@@ -168,6 +170,14 @@ export class AppController {
 
     return 'upload_xlsx()';
   }
+
+  @Get('admin/default')
+  @Render('admin/default.ejs')
+  default() {
+    return { title: 'Тест', content: '' };
+  }
+
+  // site zone
 
   @Get('/')
   @Render('site/main.ejs')

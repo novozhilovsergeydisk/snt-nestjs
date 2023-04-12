@@ -12,7 +12,7 @@
 <body>
 
 <div id="content">
-
+    <h1>xlsx</h1>
 </div>
 
 <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
@@ -30,12 +30,21 @@
     //   name: row.name.first + " " + row.name.last,
     //   birthday: row.bio.birthday
     // }));
-    let ejs = require('ejs');
-    let title= ejs.render('<%= title %>', {title: title});
+    <!--let ejs = require('ejs');-->
+    <!--let title= ejs.render('<%= title %>', {title: title});-->
 
-    <!--const title = `<%=title %>`;-->
+    <!--&lt;!&ndash;const title = `<%=title %>`;&ndash;&gt;-->
 
-    console.log(title);
+    <!--console.log(title);-->
+
+
+
+
+
+
+
+
+    <!-- Запись  в файл -->
 
     const rows = [
       { name: 'Сергей Новожилов', birthday: '1963-01-07' },
@@ -55,7 +64,7 @@
     const max_width = rows.reduce((w, r) => Math.max(w, r.name.length), 10);
     worksheet["!cols"] = [ { wch: max_width } ];
 
-    /* create an XLSX file and try to save to Presidents.xlsx */
+    // /* create an XLSX file and try to save to Presidents.xlsx */
     XLSX.writeFile(workbook, "Presidents.xlsx", { compression: true });
   })();
 </script>
