@@ -25,3 +25,5 @@ async function bootstrap() {
   console.log( `Server are started on port: ${PORT}` )
 }
 bootstrap();
+
+// console.log(process.env)
