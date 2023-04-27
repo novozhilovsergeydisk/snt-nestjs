@@ -19,6 +19,7 @@ export class UsersController {
 
   @Get()
   getAll() {
+    // return {foo: 'bar'};
     return this.usersService.getAllUsers();
   }
 }
