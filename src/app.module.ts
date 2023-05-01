@@ -3,16 +3,18 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
+
 import { UsersModule } from './users/users.module';
 import { User } from './users/user.model';
-import { RolesController } from './roles/roles.controller';
-import { RolesService } from './roles/roles.service';
+// import { RolesController } from './roles/roles.controller';
+// import { RolesService } from './roles/roles.service';
 import { RolesModule } from './roles/roles.module';
 import { Role } from './roles/roles.model';
 import { UserRoles } from './roles/user-roles.model';
-import { UsersService } from './users/users.service';
-import { UsersController } from './users/users.controller';
+// import { UsersService } from './users/users.service';
+// import { UsersController } from './users/users.controller';
 import { AuthModule } from './auth/auth.module';
+const { Sequelize } = require('sequelize');
 
 @Module({
   controllers: [AppController],
@@ -38,6 +40,6 @@ import { AuthModule } from './auth/auth.module';
     }),
     RolesModule,
     AuthModule
-  ],
+  ]
 })
 export class AppModule {}
