@@ -16,33 +16,24 @@ export class UsersService {
   async createUser(dto: CreateUserDto) {
     const db_connection = `postgres://${process.env.PGUSER}:${process.env.PGPASSWORD}@localhost:${process.env.PGPORT}/${process.env.PGDATABASE}`;
     const sequelize = new Sequelize(db_connection);
-
     // console.log({ sequelize });
-
     const user = await this.userRepository.create(dto);
     const role = await this.roleService.getRoleByValue('USER');
+    // user.roles = [role];
     const maxid = await this.userRoleService.getMaxId();
-
-    console.log({ maxid });
-
     const userid = user.dataValues.id;
     const roleid = role.dataValues.id;
+    console.log({ maxid });
     console.log({ userid });
     console.log({ roleid });
-
+    console.log('End createUser()');
     const sql = `INSERT INTO user_roles VALUES (${maxid}, ${userid}, ${roleid}) RETURNING *`;
-
-    const [result, metadata] = await sequelize.query(sql);
-
-    console.log({ result });
-
-    // console.log({ 'metadata.rows': metadata.rows });
-    //
+    await sequelize.query(sql);
+    // const [result] = await sequelize.query(sql);
+    // console.log({ result });
+    // const [result, metadata] = await sequelize.query(sql);
     // console.log({ 'metadata.fields': metadata.fields });
 
-    // console.log({ metadata });
-
-    // await user.$set('roles', [role.id]);
     return user;
   }
 

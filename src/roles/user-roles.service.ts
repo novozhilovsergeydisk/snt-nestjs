@@ -20,22 +20,22 @@ export class UserRolesService {
     const db_connection = `postgres://${process.env.PGUSER}:${process.env.PGPASSWORD}@localhost:${process.env.PGPORT}/${process.env.PGDATABASE}`;
     const sequelize = new Sequelize(db_connection);
 
-    console.log({ 'SequelizeModule': SequelizeModule })
+    // console.log({ 'SequelizeModule': SequelizeModule })
 
 // const [result, metadata] = await sequelize.query(`select * from now()`);
     let [result] = await sequelize.query('SELECT max(id) AS maxid FROM user_roles');
-    console.log({ result });
+    // console.log({ result });
 
     console.log({'result[0].maxid': result[0].maxid})
 
     let maxid = null;
     if (result[0].maxid === null) {
       maxid = 1;
-      console.log({ 'max 11': maxid });
+      // console.log({ 'max 11': maxid });
     } else {
       console.log({ 'max 22': result[0].maxid });
       maxid = result[0].maxid + 1;
-      console.log({ 'max 33': maxid });
+      // console.log({ 'max 33': maxid });
     }
 
     console.log({ 'max id': maxid });
