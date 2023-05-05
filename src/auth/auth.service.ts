@@ -22,6 +22,8 @@ const keyLength = 32;
  * @returns {string} The salt+hash
  */
 export const hash__ = async (password, salt) => {
+  console.log({ salt })
+
   return new Promise((resolve, reject) => {
     // generate random 16 bytes long salt - recommended by NodeJS Docs
     // const salt = randomBytes(16).toString("hex");
@@ -53,20 +55,32 @@ export const compare__ = async (password, hash) => {
   });
 };
 
-(async function run__ () {
-  const password1 = await hash__("123456", process.env.SECRET || 'test2')
-  const password2 = await hash__("123456", process.env.SECRET || 'test3')
-  console.log({ password1 })
-  console.log({ password2 })
-  console.log("password1", await compare__("123456", password1));
-  console.log("password2", await compare__("123456", password2));
-  console.log("password1 == password2", password1 == password2);
-})()
+async function run__(password, secret_) {
+  console.log({ 'process.env.SECRET': process.env.SECRET });
+  const secret = process.env.SECRET;
+  return await hash__(password, secret);
+};
+
+const password = '123456';
+const secret = process.env.SECRET;
+
+// console.log(process.env);
+
+// const password1 = run__(password, secret); // await hash("123456", process.env.SECRET || 'test')
+// const password2 = run__(password, secret); //await hash("123456", process.env.SECRET || 'test')
+//
+//
+// console.log({ password1 })
+// console.log({ password2 })
+
+// console.log("password1", verify("123456", password1));
+// console.log("password2", verify("123456", password2));
+// console.log("password1 == password2", password1 == password2);
 
 
-
-
-
+// console.log("password1", await compare__("123456", password1));
+// console.log("password2", await compare__("123456", password2));
+// console.log("password1 == password2", password1 == password2);
 
 
 
