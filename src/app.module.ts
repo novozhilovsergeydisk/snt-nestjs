@@ -14,7 +14,7 @@ import { UserRoles } from './roles/user-roles.model';
 // import { UsersService } from './users/users.service';
 // import { UsersController } from './users/users.controller';
 import { AuthModule } from './auth/auth.module';
-const { Sequelize } = require('sequelize');
+// const { Sequelize } = require('sequelize');
 
 @Module({
   controllers: [AppController],

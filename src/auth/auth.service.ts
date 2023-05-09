@@ -1,151 +1,36 @@
-import { Body, HttpException, HttpStatus, Injectable, Post } from '@nestjs/common';
+import { Body, HttpException, HttpStatus, Injectable, Post, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as crypto from 'crypto';
 import { User } from '../users/user.model';
 
-
-
-
-
-
-
-
-
-import { scrypt, randomBytes, timingSafeEqual } from "crypto";
-
-const keyLength = 32;
-/**
- * Has a password or a secret with a password hashing algorithm (scrypt)
- * @param {string} password
- * @returns {string} The salt+hash
- */
-export const hash__ = async (password, salt) => {
-  console.log({ salt })
-
-  return new Promise((resolve, reject) => {
-    // generate random 16 bytes long salt - recommended by NodeJS Docs
-    // const salt = randomBytes(16).toString("hex");
-
-    scrypt(password, salt, keyLength, (err, derivedKey) => {
-      if (err) reject(err);
-      // derivedKey is of type Buffer
-      resolve(`${salt}.${derivedKey.toString("hex")}`);
-    });
-  });
-};
-
-/**
- * Compare a plain text password with a salt+hash password
- * @param {string} password The plain text password
- * @param {string} hash The hash+salt to check against
- * @returns {boolean}
- */
-export const compare__ = async (password, hash) => {
-  return new Promise((resolve, reject) => {
-    const [salt, hashKey] = hash.split(".");
-    // we need to pass buffer values to timingSafeEqual
-    const hashKeyBuff = Buffer.from(hashKey, "hex");
-    scrypt(password, salt, keyLength, (err, derivedKey) => {
-      if (err) reject(err);
-      // compare the new supplied password with the hashed password using timeSafeEqual
-      resolve(timingSafeEqual(hashKeyBuff, derivedKey));
-    });
-  });
-};
-
-async function run__(password, secret_) {
-  console.log({ 'process.env.SECRET': process.env.SECRET });
-  const secret = process.env.SECRET;
-  return await hash__(password, secret);
-};
-
-const password = '123456';
-const secret = process.env.SECRET;
-
-// console.log(process.env);
-
-// const password1 = run__(password, secret); // await hash("123456", process.env.SECRET || 'test')
-// const password2 = run__(password, secret); //await hash("123456", process.env.SECRET || 'test')
-//
-//
-// console.log({ password1 })
-// console.log({ password2 })
-
-// console.log("password1", verify("123456", password1));
-// console.log("password2", verify("123456", password2));
-// console.log("password1 == password2", password1 == password2);
-
-
-// console.log("password1", await compare__("123456", password1));
-// console.log("password2", await compare__("123456", password2));
-// console.log("password1 == password2", password1 == password2);
-
-
-
-
-async function hash(password, salt) {
-  return new Promise((resolve, reject) => {
-    // generate random 16 bytes long salt
-    // const salt = crypto.randomBytes(16).toString("hex")
-    // const salt = '089ccdff2130d1912eb30a7f6533a247'; // (process.env.SECRET).toString();
-
-    crypto.randomBytes(16).toString("hex")
-    crypto.scrypt(password, salt, 64, (err, derivedKey) => {
-      if (err) reject(err);
-      resolve(salt + ":" + derivedKey.toString('hex'))
-    });
-  })
-}
-
-async function verify(password, hash) {
-  return new Promise((resolve, reject) => {
-    const [salt, key] = hash.split(":")
-    crypto.scrypt(password, salt, 64, (err, derivedKey) => {
-      if (err) reject(err);
-      resolve(key == derivedKey.toString('hex'))
-    });
-  })
-}
-
-(async function run () {
-  const password1 = await hash("123456", process.env.SECRET || 'test')
-  const password2 = await hash("123456", process.env.SECRET || 'test')
-  console.log({ password1 })
-  console.log({ password2 })
-  console.log("password1", await verify("123456", password1));
-  console.log("password2", await verify("123456", password2));
-  console.log("password1 == password2", password1 == password2);
-})
-
-
-
 const algorithm = 'aes-256-ctr'
 const secretKey = 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3'
 
 const encrypt = text => {
-  const iv = crypto.randomBytes(16)
+  console.log({ secretKey })
 
-  const cipher = crypto.createCipheriv(algorithm, secretKey, iv)
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipheriv(algorithm, secretKey, iv);
 
-  const encrypted = Buffer.concat([cipher.update(text), cipher.final()])
+  const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
 
-  return {
-    iv: iv.toString('hex'),
-    content: encrypted.toString('hex')
-  }
+  // return {
+  //   iv: iv.toString('hex'),
+  //   content: encrypted.toString('hex')
+  // }
+
+  return iv.toString('hex') + ':' + encrypted.toString('hex');
 }
 
 const decrypt = hash => {
-  const decipher = crypto.createDecipheriv(algorithm, secretKey, Buffer.from(hash.iv, 'hex'))
+  const decipher = crypto.createDecipheriv(algorithm, secretKey, Buffer.from(hash.iv, 'hex'));
 
-  const decrpyted = Buffer.concat([decipher.update(Buffer.from(hash.content, 'hex')), decipher.final()])
+  const decrpyted = Buffer.concat([decipher.update(Buffer.from(hash.content, 'hex')), decipher.final()]);
 
-  return decrpyted.toString()
+  return decrpyted.toString();
 }
-
-
 
 const { Sequelize } = require('sequelize');
 
@@ -176,17 +61,20 @@ export class AuthService {
     if (candidate) {
       throw new HttpException('Пользователь с таким email существует', HttpStatus.BAD_REQUEST);
     }
-    const hashPassword = crypto.randomBytes(16).toString('hex');
+    const hashPassword = encrypt(userDto.password) // crypto.randomBytes(16).toString('hex');
     console.log({ hashPassword });
     const user = await this.userService.createUser({ ...userDto, password: hashPassword });
 
+    // userDto['password'] = '786579';
+
+    console.log({ userDto });
 
     return this.generateToken(user);
 
     // return hashPassword;
   }
 
-  async generateToken(user: User) {
+  private async generateToken(user: User) {
     const payload = { email: user.email, id: user.id };
     return {
       token: this.jwtService.sign(payload),
@@ -195,29 +83,47 @@ export class AuthService {
 
   private async validateUser(userDto: CreateUserDto) {
     const user = await this.userService.getUserByEmail(userDto.email);
-    const password1 = userDto.password;
-    const password2 = user.password;
 
-    const hash = encrypt(password1)
+    const userDtoPassword = userDto.password;
+    const userPassword = user.password;
+
+    console.log({ userDtoPassword });
+
+    console.log({ userPassword });
+
+    const hash = encrypt(userDtoPassword)
 
     console.log({ hash });
 
-// {
-//     iv: '237f306841bd23a418878792252ff6c8',
-//     content: 'e2da5c6073dd978991d8c7cd'
-// }
+    // console.log('11');
 
-    const text = decrypt(password2)
+    const result = userPassword.split(':', 2);
 
-    console.log({ text }) // Hello World!
+    const hashUser =  { iv: result[0], content: result[1] };
 
-    console.log({ password1 });
-    console.log({ password2 });
+    console.log({ result });
+
+    console.log({ hashUser });
+
+    const passUser = decrypt(hashUser);
+
+    // console.log('22');
+
+    console.log({ passUser });
+
+    // console.log({ password1 });
+    // console.log({ password2 });
+
+    if (user && (userDtoPassword === passUser)) {
+      console.log('Belissimo!')
+      return user;
+    }
+
+    throw new UnauthorizedException({message: 'Некорректный email или пароль'})
 
     // const resultHash = this.compareHashPassword(password1, password2);
     // console.log({ resultHash })
 
-    return user;
   }
 
 }
