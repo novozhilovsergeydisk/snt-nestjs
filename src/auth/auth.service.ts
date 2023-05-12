@@ -27,6 +27,8 @@ const encrypt = text => {
 const decrypt = hash => {
   const decipher = crypto.createDecipheriv(algorithm, secretKey, Buffer.from(hash.iv, 'hex'));
 
+  console.log({ 'hash.content': hash.content });
+
   const decrpyted = Buffer.concat([decipher.update(Buffer.from(hash.content, 'hex')), decipher.final()]);
 
   return decrpyted.toString();
@@ -44,6 +46,9 @@ export class AuthService {
 
   async login(userDto: CreateUserDto) {
          const user = await this.validateUser(userDto);
+
+         console.log({ user })
+
          return this.generateToken(user);
   }
 
@@ -82,48 +87,59 @@ export class AuthService {
   }
 
   private async validateUser(userDto: CreateUserDto) {
-    const user = await this.userService.getUserByEmail(userDto.email);
+    try {
+      const user = await this.userService.getUserByEmail(userDto.email);
 
-    const userDtoPassword = userDto.password;
-    const userPassword = user.password;
+      console.log({ user });
 
-    console.log({ userDtoPassword });
+      // const userDtoPassword = userDto.password;
+      //
+      // const userPassword = user.password;
+      //
+      // console.log({ userDtoPassword });
+      //
+      // console.log({ userPassword });
+      //
+      // const hash = encrypt(userDtoPassword)
+      //
+      // console.log({ hash });
+      //
+      // // console.log('11');
+      //
+      // const result = userPassword.split(':', 2);
+      //
+      // const hashUser =  { iv: result[0], content: result[1] };
+      //
+      // console.log({ result });
+      //
+      // console.log({ hashUser });
+      //
+      //
+      // const passUser = decrypt(hashUser);
+      //
+      // // console.log('22');
+      //
+      // console.log({ passUser });
+      //
+      // // console.log({ password1 });
+      // // console.log({ password2 });
+      //
+      // if (user && (userDtoPassword === passUser)) {
+      //   console.log('Belissimo!')
+      //   return user;
+      // }
 
-    console.log({ userPassword });
-
-    const hash = encrypt(userDtoPassword)
-
-    console.log({ hash });
-
-    // console.log('11');
-
-    const result = userPassword.split(':', 2);
-
-    const hashUser =  { iv: result[0], content: result[1] };
-
-    console.log({ result });
-
-    console.log({ hashUser });
-
-    const passUser = decrypt(hashUser);
-
-    // console.log('22');
-
-    console.log({ passUser });
-
-    // console.log({ password1 });
-    // console.log({ password2 });
-
-    if (user && (userDtoPassword === passUser)) {
-      console.log('Belissimo!')
       return user;
+
+      throw new UnauthorizedException({message: 'Некорректный email или пароль'})
+
+      // const resultHash = this.compareHashPassword(password1, password2);
+      // console.log({ resultHash })
+    } catch(e) {
+      console.log({ 'err': e });
+
+      throw new HttpException('Ошибка валидации', HttpStatus.BAD_REQUEST)
     }
-
-    throw new UnauthorizedException({message: 'Некорректный email или пароль'})
-
-    // const resultHash = this.compareHashPassword(password1, password2);
-    // console.log({ resultHash })
-
   }
 
 }
