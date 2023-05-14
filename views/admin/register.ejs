@@ -1,0 +1,140 @@
+<div class="row">
+    <div class="col-lg-9 page-content">
+        <nav aria-label="breadcrumb" class="nav-breadcrumb d-none d-md-block"><ol class="breadcrumb"><li class="breadcrumb-item" aria-current="page"><a href="/">Главная</a></li><li class="breadcrumb-item active" aria-current="page">Регистрация пользователя</li></ol></nav>
+        <div class="registration">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-11">
+
+                        <h1 class="registration__title">Регистрация пользователя</h1>
+                        <p>СНТ Загорье </p>
+
+                        <div class="registration__subtitle">Заполните поля для успешной регистрации в системе</div>
+                        <div class="registration__subtitle">Обязателен ввод либо телефона, либо E-mail</div>
+
+                        <form id="form-signup" class="registration__form" action="/site/signup" method="post">
+                            <input type="hidden" name="_csrf-frontend" value="l8o-nwNkj4a3GNE9lFUJihkr0HY2kCHAV7aaTfyZknXFoEfeeSPBsYZq4GKiEVDzfW2ZP1nzdaQYw6onzrTqJQ==">                <div class="registration__form-content">
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <div class="form-group field-signupform-phone has-success">
+                                            <label class="control-label" for="signupform-phone">Телефон</label>
+                                            <input type="text" id="signupform-phone" class="form-control" name="SignupForm[phone]" autofocus="" aria-invalid="false">
+
+                                            <p class="help-block help-block-error"></p>
+                                        </div>
+                                        <div class="form-group field-signupform-email">
+                                            <label class="control-label" for="signupform-email">Email</label>
+                                            <input type="text" id="signupform-email" class="form-control suggestions-input" name="SignupForm[email]" data-key="5f91ba1fe7bb171f904803feeb260350b3de8d0e" data-src="dadata" data-type="email" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="box-sizing: border-box;"><div class="suggestions-wrapper"><span class="suggestions-addon" data-addon-type="spinner" style="left: 269.125px; top: -49px; height: 48px; width: 48px;"></span><ul class="suggestions-constraints" style="left: 13px; top: -25px;"></ul><div class="suggestions-suggestions" style="position: absolute; display: none; left: 0px; top: -1px; width: 318.125px;"></div></div>
+
+                                            <p class="help-block help-block-error"></p>
+                                        </div>                        </div>
+
+                                    <div class="col-md-6">
+
+                                        <div class="form-group field-name required">
+                                            <label class="control-label" for="name">ФИО</label>
+                                            <input type="text" id="name" class="form-control suggestions-input" name="SignupForm[name]" maxlength="128" data-key="5f91ba1fe7bb171f904803feeb260350b3de8d0e" data-src="dadata" data-type="name" aria-required="true" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="box-sizing: border-box;"><div class="suggestions-wrapper"><span class="suggestions-addon" data-addon-type="spinner" style="left: 269.125px; top: -49px; height: 48px; width: 48px;"></span><ul class="suggestions-constraints" style="left: 13px; top: -25px;"></ul><div class="suggestions-suggestions" style="position: absolute; display: none; left: 0px; top: -1px; width: 318.125px;"></div></div>
+
+                                            <p class="help-block help-block-error"></p>
+                                        </div>
+                                        <div class="form-group field-signupform-area required">
+                                            <label class="control-label" for="signupform-area">Участок / дом</label>
+                                            <input type="text" id="signupform-area" class="form-control" name="SignupForm[area]" maxlength="64" aria-required="true">
+
+                                            <p class="help-block help-block-error"></p>
+                                        </div>                        </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group field-signupform-password required">
+                                            <label class="control-label" for="signupform-password">Пароль</label>
+                                            <input type="password" id="signupform-password" class="form-control" name="SignupForm[password]" aria-required="true">
+
+                                            <p class="help-block help-block-error"></p>
+                                        </div>                        </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group field-signupform-repassword required">
+                                            <label class="control-label" for="signupform-repassword">Повторите пароль</label>
+                                            <input type="password" id="signupform-repassword" class="form-control" name="SignupForm[rePassword]" aria-required="true">
+
+                                            <p class="help-block help-block-error"></p>
+                                        </div>                        </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group field-signupform-square">
+                                            <label class="control-label" for="signupform-square">Площадь объекта</label>
+                                            <input type="text" id="signupform-square" class="form-control" name="SignupForm[square]">
+
+                                            <p class="help-block help-block-error"></p>
+                                        </div>                        </div>
+
+                                    <label for="captcha-a" class="col-md-5 col-form-label">Антиспам (Введите результат)</label>
+                                    <label for="captcha-a" id="captcha-q" class="col-md-5 col-form-label text-center text-nowrap"></label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" name="SignupForm[captchaAnswer]" maxlength="10" id="captcha-a" value="" required="">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="registration__form-footer">
+                                <button type="submit" class="btn btn-success" name="signup-button">Зарегистрировать</button>                                    </div>
+                            <div class="registration__form-note">* - поля обязательные для ввода</div>
+                            <div class="col-md-6 offset-md-3">
+                                <div class="registration__form-note">Перейдя по ссылке "Зарегистрировать",
+                                    даю свое согласие на сбор, хранение и обработку персональных данных
+                                    в соответствии с <a href="/info/main">Политикой конфиденциальности Товарищества</a>,
+                                    с <a href="https://landorg.ru/pp.html">Политикой конфиденциальности</a> Сервиса LandOrg,
+                                    а также принимаю <a href="https://landorg.ru/oferta.html">Пользовательское соглашение</a> Сервиса LandOrg.</div>
+                            </div>
+                        </form>            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+  // v2
+  const email = document.getElementById('email');
+  const password = document.getElementById('password');
+  const btnLogin = document.getElementById('btn-login');
+
+  async function __fetch__(url, data) {
+    try {
+      console.log({ data });
+
+      const response = await fetch(url, {
+        method: 'POST', // или 'PUT'
+        body: JSON.stringify(data), // данные могут быть 'строкой' или {объектом}!
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const json = await response.json();
+      console.log('json:', json);
+      // console.log('response:', JSON.stringify(json));
+    } catch (error) {
+      console.error('Ошибка:', error);
+    }
+  }
+
+  btnLogin.addEventListener('click', e => {
+    e.preventDefault();
+
+    const url = '/auth/register';
+    // const emailValue = { 'email.value': email.value };
+    // const passwordValue = { 'email.value': password.value };
+
+    const data = {
+      email: email.value,
+      password: password.value
+    }
+
+    __fetch__(url, data);
+
+    console.log('preventDefault()');
+  });
+
+  console.log('register')
+</script>

@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Render } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { AuthService } from './auth.service';
@@ -7,6 +7,12 @@ import { AuthService } from './auth.service';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
+
+  @Get('/login')
+  @Render('admin/index-login.ejs')
+  formLogin() {
+    return { title: 'Тест', content: '' };
+  }
 
   @Post('/login')
   login(@Body() userDto: CreateUserDto) {

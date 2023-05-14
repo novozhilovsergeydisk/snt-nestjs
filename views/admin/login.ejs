@@ -1,0 +1,108 @@
+<style>
+    .hide {
+        display: none;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12 page-content">
+        <div class="login">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-sm-8 col-md-6">
+
+                        <p class="text-center text-muted">
+                            СНТ Загорье </p>
+                        <h1 class="login__title">Доступ к сервису LandOrg.ru</h1>
+                        <form id="login-form" class="login__form" action="/auth/register" method="post">
+                            <input type="hidden" name="_csrf-frontend"
+                                   value="lWLPgti2AyrjbShb0KJo1tCFT08qEiqyA4PeOGeGnn3HCLbDovFNHdIfGQTm5jGvtMMGBkVxftZM9u5SVavmLQ==">
+                            <div class="login__form-content">
+                                <div class="form-group field-login-name required has-error">
+                                    <label class="control-label" for="login-name">Email</label>
+                                    <input type="text" id="email" class="form-control"
+                                           autofocus="" aria-required="true" aria-invalid="true">
+
+                                    <p id="error-email" class="help-block help-block-error hide">Необходимо заполнить поле Email</p>
+                                </div>
+                                <div class="form-group field-loginform-password required">
+                                    <label class="control-label" for="loginform-password">Пароль</label>
+                                    <input type="password" id="password" class="form-control"
+                                           name="LoginForm[password]" aria-required="true">
+
+                                    <p id="error-password" class="help-block help-block-error hide">Необходимо заполнить поле Пароль</p>
+                                </div>
+                                <div class="form-group field-loginform-rememberme">
+                                    <div class="checkbox">
+                                        <label for="loginform-rememberme">
+                                            <input type="hidden" name="LoginForm[rememberMe]" value="0"><input
+                                                    type="checkbox" id="loginform-rememberme"
+                                                    name="LoginForm[rememberMe]" value="1" checked="">
+                                            Запомнить меня
+                                        </label>
+                                        <p class="help-block help-block-error"></p>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="login__form-footer">
+                                <button id="btn-login" class="btn btn-success login__submit" type="button">Войти</button>
+
+                                <a href="/site/request-password-reset" class="login__forgot-link">Задать новый
+                                    пароль</a>
+
+                                <a href="/site/signup-user" class="login__forgot-link">Регистрация пользователя</a>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+  // v2
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const btnLogin = document.getElementById('btn-login');
+
+    async function __fetch__(url, data) {
+      try {
+        console.log({ data });
+
+        const response = await fetch(url, {
+          method: 'POST', // или 'PUT'
+          body: JSON.stringify(data), // данные могут быть 'строкой' или {объектом}!
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const json = await response.json();
+        console.log('json:', json);
+        // console.log('response:', JSON.stringify(json));
+      } catch (error) {
+        console.error('Ошибка:', error);
+      }
+    }
+
+    btnLogin.addEventListener('click', e => {
+      e.preventDefault();
+
+      const url = '/auth/login';
+      // const emailValue = { 'email.value': email.value };
+      // const passwordValue = { 'email.value': password.value };
+
+      const data = {
+        email: email.value,
+        password: password.value
+      }
+
+      __fetch__(url, data);
+
+      console.log('preventDefault()');
+    });
+
+    console.log('login')
+</script>
