@@ -1,4 +1,4 @@
-import { Get, Controller, Render } from '@nestjs/common';
+import { Get, Controller, Render, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import * as fs from "fs";
 // import { readFile, set_fs } from "xlsx";
@@ -8,6 +8,8 @@ import * as xlsx from 'xlsx';
 import { forEachResolvedProjectReference } from 'ts-loader/dist/instances';
 
 import * as crypto from 'crypto';
+import { Roles } from './auth/roles-auth.decorator';
+import { RolesGuard } from './auth/roles.guard';
 
 // console.log(xlsx.readFile);
 
@@ -19,7 +21,9 @@ export class AppController {
 
   // admin zone
 
-  @Get('admin')
+  @Roles('ADMIN')
+  @UseGuards(RolesGuard)
+  @Get('admin/index')
   @Render('admin/index.ejs')
   index() {
     return { _title: 'Тест', _content: '' };
