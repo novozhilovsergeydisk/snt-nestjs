@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Render } from '@nestjs/common';
+import { Body, Controller, Get, Post, Render, Redirect } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { AuthService } from './auth.service';
@@ -7,6 +7,14 @@ import { AuthService } from './auth.service';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
+
+  @Get('/foo')
+  @Redirect('/', 301)
+  foo(): void {
+    console.log('foo');
+    return;
+    // res.redirect('/login');
+  }
 
   @Get('/login')
   @Render('admin/index-login.ejs')

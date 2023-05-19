@@ -1,4 +1,4 @@
- import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, Res, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Observable } from 'rxjs';
 import { Reflector } from '@nestjs/core';
@@ -18,6 +18,10 @@ export class RolesGuard implements CanActivate {
     await client.end()
     return res.rows;
   }
+
+  // zxc(@Res() res: Response): void {
+  //   console.log('res')
+  // }
 
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
     try {

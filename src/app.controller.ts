@@ -26,7 +26,7 @@ export class AppController {
   @Get('admin/index')
   @Render('admin/index.ejs')
   index() {
-    return { _title: 'Тест', _content: '' };
+    return { _title: 'Тест', _content: '', redirect: '' };
   }
 
   @Get('admin/accounting-documents')
