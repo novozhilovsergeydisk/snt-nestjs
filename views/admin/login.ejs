@@ -70,7 +70,7 @@
 
     async function __fetch__(url, data) {
       try {
-        console.log({ data });
+        // console.log({ data });
 
         const response = await fetch(url, {
           method: 'POST', // или 'PUT'
@@ -80,7 +80,92 @@
           }
         });
         const json = await response.json();
-        console.log('json:', json);
+        // console.log('json:', json);
+
+        if (json.statusCode == 401) {
+          console.log(json.statusCode)
+        } else if (json.token) {
+          const token = json.token;
+          console.log({ 'token': token });
+
+          const bearer = 'Bearer ' + json.token;
+
+          console.log({Authorization: bearer})
+
+          fetch("/admin/index", {
+            headers: {Authorization: bearer}
+          })
+            .then((response) => response.body)
+            .then((rb) => {
+              const reader = rb.getReader();
+
+              return new ReadableStream({
+                start(controller) {
+                  // The following function handles each data chunk
+                  function push() {
+                    // "done" is a Boolean and value a "Uint8Array"
+                    reader.read().then(({ done, value }) => {
+                      // If there is no more data to read
+                      if (done) {
+                        // console.log("done", done);
+                        controller.close();
+                        return;
+                      }
+                      // Get the data and send it to the browser via the controller
+                      controller.enqueue(value);
+                      // Check chunks by logging to the console
+                      // console.log(done, value);
+                      push();
+                    });
+                  }
+
+                  push();
+                },
+              });
+            })
+            .then((stream) =>
+              // Respond with our stream
+              new Response(stream, { headers: { "Content-Type": "text/html" } }).text()
+            )
+            .then((result) => {
+              // Do things with result
+
+              document.open("text/html");
+              document.write(result);
+              document.close();
+
+              console.log(result);
+            });
+
+
+
+
+          fetch('/admin/index', {
+            headers: {Authorization: bearer}
+          })
+            .then(resp => {
+
+
+              console.log( resp.body )
+              // resp.json()
+            })
+            // .then((response) => response.body) {
+            .then(json => {
+              const bearerToken = json;
+
+              console.log('ok')
+
+              // if (bearerToken.success == 'true') {
+              //   console.log({ 'Bearer ': bearerToken.success });
+              // }
+
+
+              // window.location.href = 'http://localhost:3000/admin/index';
+            })
+
+          // window.location.href = 'http://localhost:3000/admin/index';
+        }
+
         // console.log('response:', JSON.stringify(json));
       } catch (error) {
         console.error('Ошибка:', error);
@@ -101,8 +186,8 @@
 
       __fetch__(url, data);
 
-      console.log('preventDefault()');
+      // console.log('preventDefault()');
     });
 
-    console.log('login')
+    // console.log('login')
 </script>

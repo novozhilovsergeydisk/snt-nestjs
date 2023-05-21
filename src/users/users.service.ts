@@ -23,9 +23,9 @@ export class UsersService {
     const maxid = await this.userRoleService.getMaxId();
     const userid = user.dataValues.id;
     const roleid = role.dataValues.id;
-    console.log({ maxid });
-    console.log({ userid });
-    console.log({ roleid });
+    // console.log({ maxid });
+    // console.log({ userid });
+    // console.log({ roleid });
     console.log('End createUser()');
     const sql = `INSERT INTO user_roles VALUES (${maxid}, ${userid}, ${roleid}) RETURNING *`;
     await sequelize.query(sql);
@@ -33,6 +33,12 @@ export class UsersService {
     // console.log({ result });
     // const [result, metadata] = await sequelize.query(sql);
     // console.log({ 'metadata.fields': metadata.fields });
+
+    // await user.$set('roles', [role.id]);
+
+    user['foo'] = 'bar';
+
+    // console.log({ user })
 
     return user;
   }

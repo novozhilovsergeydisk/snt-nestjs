@@ -14,9 +14,10 @@ export class JwtAuthGuard implements CanActivate {
       const bearer = authHeader.split(' ')[0];
       const token = authHeader.split(' ')[1];
 
-      if (bearer != 'Bearer' || !token) {
-        throw new UnauthorizedException({status: 'failed', message: 'Пользователь не авторизован'})
+      console.log('JwtAuthGuard')
 
+      if (bearer != 'Bearer' || !token) {
+        throw new UnauthorizedException({status: 'failed', message: 'Пользователь не авторизован 333'})
       }
 
       const user = this.jwtService.verify(token);
@@ -25,7 +26,7 @@ export class JwtAuthGuard implements CanActivate {
       return true;
     } catch (e) {
       console.log({ e })
-      throw new UnauthorizedException({status: 'failed', message: 'Пользователь не авторизован'})
+      throw new UnauthorizedException({status: 'failed', message: 'Пользователь не авторизован 555'})
     }
   }
 }

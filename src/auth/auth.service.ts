@@ -4,6 +4,7 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as crypto from 'crypto';
 import { User } from '../users/user.model';
+import { Role } from '../roles/roles.model';
 
 const algorithm = 'aes-256-ctr';
 const secretKey = 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3';
@@ -49,10 +50,10 @@ export class AuthService {
 
     const user = await this.validateUser(userDto);
 
-    return this.generateToken(user);
+    return this.generateToken(user, ['USER', 'ADMIN']);
   }
 
-  async register(userDto: CreateUserDto) {
+  async register(userDto: CreateUserDto, roles: any[]) {
     if (!userDto.email) {
       throw new HttpException('Заполните поле Email', HttpStatus.BAD_REQUEST);
     }
@@ -77,11 +78,11 @@ export class AuthService {
     console.log({ hashPassword });
     const user = await this.userService.createUser({ ...userDto, password: hashPassword });
 
-    return this.generateToken(user);
+    return this.generateToken(user, ['USER', 'ADMIN']);
   }
 
-  private async generateToken(user: User) {
-    const payload = { email: user.email, id: user.id };
+  private async generateToken(user: User, roles: any[]) {
+    const payload = { email: user.email, id: user.id, roles: roles };
 
     return {
       token: this.jwtService.sign(payload),
@@ -124,6 +125,8 @@ export class AuthService {
       const user = await this.userService.getUserByEmail(userDto.email);
 
       const userDtoPassword = userDto.password;
+
+      console.log({ user })
 
       const userPassword = user.password;
 

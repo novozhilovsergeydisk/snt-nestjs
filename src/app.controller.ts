@@ -1,4 +1,4 @@
-import { Get, Controller, Render, UseGuards } from '@nestjs/common';
+import { Get, Controller, Render, UseGuards, SetMetadata } from '@nestjs/common';
 import { AppService } from './app.service';
 import * as fs from "fs";
 // import { readFile, set_fs } from "xlsx";
@@ -22,14 +22,24 @@ export class AppController {
   // admin zone
 
   @Roles('ADMIN')
-  @UseGuards(RolesGuard)
-  @Get('admin/index')
+  @SetMetadata('roles', ['admin'])
+  // @UseGuards(RolesGuard)
+  @Get('user/index')
   @Render('admin/index.ejs')
   index() {
     return { _title: 'Тест', _content: '', redirect: '' };
   }
 
-  @Get('admin/accounting-documents')
+  @Roles('USER')
+  @SetMetadata('roles', ['admin'])
+  // @UseGuards(RolesGuard)
+  @Get('user/regulation-snt')
+  @Render('admin/regulation-snt.ejs')
+  regulationSnt() {
+    return { _title: 'regulationSnt()', _content: '', redirect: '' };
+  }
+
+  @Get('user/accounting-documents')
   @Render('admin/accounting-documents.ejs')
   accounting_documents() {
     return { _title: 'foo', _content: 'bar' };

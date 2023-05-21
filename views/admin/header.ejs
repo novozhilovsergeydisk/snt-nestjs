@@ -20,6 +20,55 @@
     <link href="/css/material-icons.min.css" rel="stylesheet">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/common.css?v=1" rel="stylesheet">
+
+    <script>
+      const bearer = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluIiwiaWQiOjExLCJpYXQiOjE2ODQ1ODM1MjMsImV4cCI6MTY4NDY2OTkyM30.LCpzLnr90AS3mpb08P7xJNpRnBxNEAkMoM0kHSjBMxc';
+        console.log('admin')
+      fetch("/admin/index", {
+        headers: {Authorization: bearer}
+      })
+        .then((response) => response.body)
+        .then((rb) => {
+          const reader = rb.getReader();
+
+          return new ReadableStream({
+            start(controller) {
+              // The following function handles each data chunk
+              function push() {
+                // "done" is a Boolean and value a "Uint8Array"
+                reader.read().then(({ done, value }) => {
+                  // If there is no more data to read
+                  if (done) {
+                    // console.log("done", done);
+                    controller.close();
+                    return;
+                  }
+                  // Get the data and send it to the browser via the controller
+                  controller.enqueue(value);
+                  // Check chunks by logging to the console
+                  // console.log(done, value);
+                  push();
+                });
+              }
+
+              push();
+            },
+          });
+        })
+        .then((stream) =>
+          // Respond with our stream
+          new Response(stream, { headers: { "Content-Type": "text/html" } }).text()
+        )
+        .then((result) => {
+          // Do things with result
+
+          // document.open("text/html");
+          // document.write(result);
+          // document.close();
+
+          console.log({ result });
+        });
+    </script>
 </head>
 
 <body>
@@ -50,11 +99,11 @@
                             </div>
                         </div>
                         <ul class="navbar-nav justify-content-end">
-                            <li class="nav-item"><a class="nav-link" href="/admin">Главная</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/user/index">Главная</a></li>
 
-                            <li class="nav-item"><a class="nav-link" href="/admin/accounting-documents">Бухгалтерские документы</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/user/accounting-documents">Бухгалтерские документы</a></li>
 
-                            <li class="nav-item"><a class="nav-link" href="/regulation-snt">Устав СНТ</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/user/regulation-snt">Устав СНТ</a></li>
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown"
